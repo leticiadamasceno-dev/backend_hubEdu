@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const sequelize = require('./db/database')
+require('./models/usuario');
+
 
 const port = 8888;
 
@@ -11,7 +14,14 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cors());
 
+sequelize.sync({force: false})
+.then(() => {
+  console.log('Banco de dados sincronizado')
+}).catch((error) => console.error("Falha ao sincronizar banco de dados", error))
+
 //rotas 
+const rotaUsuario = require('./routes/usuarios_rotas');
+app.use('/usuarios/', rotaUsuario);
 
 //listen
 app.listen(port, () => {
