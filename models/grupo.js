@@ -1,5 +1,5 @@
 const sequelize = require('../db/database');
-
+const { DataTypes } = require('sequelize');
 const Grupos = sequelize.define('Grupos', {
     id: {
         type: DataTypes.INTEGER,
