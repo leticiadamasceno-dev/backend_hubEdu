@@ -1,48 +1,55 @@
-const UsuarioDAO = require('../dao/usuarios_dao')
+const UsuarioDAO = require('../dao/usuarios_dao');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-module.exports = class UsuarioController{
-    static async registrar(req,res){
-        try{
-            const {email, nome, sobrenome, nickName, senha, dataNascimento, classificacao } = req.body
+const JWT_SECRET = 'nossosecret';
+
+module.exports = class UsuarioController {
+    static async registrar(req, res) {
+        try {
+            const { email, nome, sobrenome, nickName, senha, dataNascimento, classificacao } = req.body;
             const salt = await bcrypt.genSalt(12);
             const passwordHash = await bcrypt.hash(senha, salt);
             const emailexiste = await UsuarioDAO.verificarEmailExistente(email);
-            if(emailexiste){
-                res.status(201).json("Este "+ email + "email já existe");
+            if (emailexiste) {
+                res.status(201).json("Este " + email + " já existe");
                 return;
             }
-            const Usuario = ({
-                email, 
-                nome, 
-                sobrenome, 
-                nickName, 
+            const Usuario = {
+                email,
+                nome,
+                sobrenome,
+                nickName,
                 senha: passwordHash,
-                dataNascimento, 
-                classificacao 
-            });
-           const result = await UsuarioDAO.inserirUsuario(Usuario);
+                dataNascimento,
+                classificacao
+            };
+            const result = await UsuarioDAO.inserirUsuario(Usuario);
             res.status(201).json(result);
-        }catch(e){
-            res.status(401).json("erro" + e);
+        } catch (e) {
+            res.status(401).json("Erro: " + e);
             console.log(e);
         }
-        
     }
 
-    static async login(req, res){
-        try{
-            const {email, senha} = req.body;
+    static async login(req, res) {
+        try {
+            const { email, senha } = req.body;
             const usuarioExiste = await UsuarioDAO.buscarUsuarios(email, senha);
-            if(usuarioExiste){
-                res.status(201).json("usuario encontrado");
-                return;
-            }
-            
-            res.status(201).json("usuario não encontrado encontrado");
 
-        }catch{
-            res.status(401).json("Usuário não encontrado");
+            if (usuarioExiste) {
+                const token = jwt.sign({ id: usuarioExiste.id, email: usuarioExiste.email }, JWT_SECRET, {
+                    expiresIn: '1h'
+                });
+
+                return res.status(200).json({ message: "Usuário autenticado com sucesso", token: token });
+            } else {
+              
+                return res.status(401).json("Usuário não encontrado ou senha incorreta");
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json("Erro no servidor ao tentar fazer login");
         }
     }
-}
+};
