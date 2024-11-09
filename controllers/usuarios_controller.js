@@ -38,12 +38,10 @@ module.exports = class UsuarioController {
             const usuarioExiste = await UsuarioDAO.buscarUsuarios(email, senha);
 
             if (usuarioExiste) {
-                // Gere o token JWT
                 const token = jwt.sign({ id: usuarioExiste.id, email: usuarioExiste.email }, JWT_SECRET, {
-                    expiresIn: '1h' // O token expira em 1 hora
+                    expiresIn: '1h'
                 });
 
-                // Retorne o token e uma mensagem de sucesso
                 return res.status(200).json({ message: "Usuário autenticado com sucesso", token: token });
             } else {
               
