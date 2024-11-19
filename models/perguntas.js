@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/database');
+const Grupos = require('../models/grupo');
+const GrupoPerguntas = require('../models/grupo_perguntas');
 
 const Perguntas = sequelize.define('Perguntas', {
     id: {
@@ -34,5 +36,8 @@ const Perguntas = sequelize.define('Perguntas', {
     type: DataTypes.DATE
    }
 });
+
+Perguntas.belongsTo(Grupos, { foreignKey: 'idGrupo' });
+Grupos.hasMany(Grupos, { foreignKey: 'idGrupo' });
 
 module.exports = Perguntas;

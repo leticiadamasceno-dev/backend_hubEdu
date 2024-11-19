@@ -33,4 +33,20 @@ module.exports = class PerguntasController{
             res.status(400).json(e);
         }
     }
+
+    static async buscarPerguntasPorGrupo(req,res){
+        try{
+            const {idGrupo} = req.body;
+            var perguntas = await PerguntaGrupoDAO.buscarPerguntasGrupoPorID(idGrupo);
+            console.log(perguntas);
+            res.status(200).send({ message: "retornos", data: perguntas }); // Exemplo de status válido
+
+        }catch(e){
+            res.status(400).json("não foi possível buscar perguntas");
+            console.log(e);
+        }
+
+    }
+
+    
 }
