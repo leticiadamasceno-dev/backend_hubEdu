@@ -1,6 +1,7 @@
 const PerguntaGrupo = require('../models/grupo_perguntas');
-const Grupos = require('../models/grupo');
+const Grupo = require('../models/grupo');
 const Perguntas = require('../models/perguntas');
+const Usuario = require('../models/usuario');
 
 module.exports = class GruposPerguntasDAO{
     static async inserirPerguntaGrupo(dadosPergunta) {
@@ -9,19 +10,35 @@ module.exports = class GruposPerguntasDAO{
           return pergunta;
         } catch (error) {
           console.error('Erro ao inserir pergunta na tabela de ligação:', error);
-          throw error;
+          throw error;  
         }
       }
 
-      static async buscarPerguntasGrupoPorID(grupoID){
+      static async buscarPerguntasGrupoPorID(idGrupo){
         try{
-          const grupo = await PerguntaGrupo.findByPk(grupoID, {
-            include: {
-              model: Perguntas,
-              as: 'Perguntas'
-            }
-          });
-          return grupo;
+          const retorno = await PerguntaGrupo.findAll(({
+            where:{
+              idGrupo
+            },
+            include: [
+              {
+                model: Grupo,
+                as: 'Grupo',
+                attributes: ['nome']
+              },
+              {
+                model: Usuario,
+                as: 'Usuario',
+                attributes: ['nome']
+              },
+              {
+                model: Perguntas,
+                as: 'Perguntas',
+                attributes: ['titulo', 'descricao']
+              }
+            ]
+          }));
+          return retorno;
         }catch(error){
           console.error('Erro ao buscar perguntas:', error);
           throw error;

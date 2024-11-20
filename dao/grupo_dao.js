@@ -26,20 +26,10 @@ module.exports = class GrupoDAO{
         }
     }
 
-    static async criarGrupos(){
+    static async criarGrupos(dadosgrupo){
         try {
-            // Sincronize o modelo com o banco de dados
-            await Grupos.sync({ force: true }); // force: true recria a tabela
-        
-            // Insira os valores iniciais
-            const valoresIniciais = [
-              {id: 1, idMateria: 1, nome: 'Materia português',},
-              {id: 2, idMateria: 2, nome: 'Foco matemática'},
-              {id: 3, idMateria: 3, nome: 'Enciclopédia história'}
-            ];
-            
-            // Inserir em massa os valores iniciais
-            await Grupos.bulkCreate(valoresIniciais);
+            const grupoCriado = await Grupos.create(dadosgrupo); // Insere o grupo no banco de dados
+
             console.log('Tabela de valores de grupos inseridos');
           } catch (error) {
             console.error('Erro ao criar a tabela:', error);
@@ -51,6 +41,7 @@ module.exports = class GrupoDAO{
             const gruposRetornados = await Grupos.findAll({
                 include: {
                     model: Materia,
+                    as: 'Materia',
                     attributes: ['nome']
                 }
             });
