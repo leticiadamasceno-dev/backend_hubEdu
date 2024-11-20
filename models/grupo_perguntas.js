@@ -18,6 +18,8 @@ const GrupoPerguntas = sequelize.define('GrupoPerguntas', {
             key: 'id',
         },
         onDelete: 'CASCADE', // Exclui automaticamente ao deletar a Pergunta
+        onUpdate: 'CASCADE', // Atualiza os registros relacionados automaticamente
+
     },
     idGrupo: {
         type: DataTypes.INTEGER,
@@ -26,6 +28,8 @@ const GrupoPerguntas = sequelize.define('GrupoPerguntas', {
             key: 'id',
         },
         onDelete: 'CASCADE', // Exclui automaticamente ao deletar o Grupo
+        onUpdate: 'CASCADE', // Atualiza os registros relacionados automaticamente
+
     },
     idUsuario: {
         type: DataTypes.INTEGER,

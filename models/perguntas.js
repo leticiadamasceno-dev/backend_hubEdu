@@ -19,6 +19,8 @@ const Perguntas = sequelize.define('Perguntas', {
     },
     idMateria: {
         type: DataTypes.INTEGER,
+        onDelete: 'CASCADE', // Exclui automaticamente ao deletar a Pergunta
+        onUpdate: 'CASCADE', // Atualiza os registros relacionados automaticamente
     },
     idDificuldade: {
         type: DataTypes.INTEGER,

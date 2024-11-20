@@ -13,6 +13,8 @@ require('./models/grupo');
 require('./models/perguntas');
 require('./models/grupo_perguntas');
 require('./models/usuario');
+require ('./models/urgencia_pergunta');
+require('./models/classificacao_dificuldade_pergunta');
 
 const gruposController = require('./controllers/grupos_controller');
 
@@ -30,6 +32,8 @@ app.use(express.static('public'));
 sequelize.sync({ force: false })
   .then(() => {
     console.log('Banco de dados sincronizado');
+    materiasController.criarMateriasMockadas();
+ //   gruposController.criarGruposMockados();
   })
   .catch((error) => console.error("Falha ao sincronizar banco de dados", error));
 
