@@ -4,9 +4,7 @@ const sequelize = new Sequelize('hubEdu', 'root', '', {
   host: 'localhost',
 //  port: 3307,
   dialect: 'mysql',
-  dialectOptions: {
-    connectTimeout: 60000 // opcional, aumenta o tempo limite de conexão
-  }
+  logging: false, // Desativa os logs de queries SQL se tiver te incomodando
 });
 
 module.exports = sequelize;

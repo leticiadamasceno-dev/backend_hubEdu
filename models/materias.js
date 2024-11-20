@@ -12,4 +12,6 @@ const Materias = sequelize.define('Materias', {
     }
 })
 
+
+
 module.exports = Materias;
