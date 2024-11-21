@@ -2,6 +2,8 @@ const PerguntaGrupo = require('../models/grupo_perguntas');
 const Grupo = require('../models/grupo');
 const Perguntas = require('../models/perguntas');
 const Usuario = require('../models/usuario');
+const ClassificaoDificuldadePergunta = require('../models/classificacao_dificuldade_pergunta');
+const Urgencia = require('../models/urgencia_pergunta');
 
 module.exports = class GruposPerguntasDAO{
     static async inserirPerguntaGrupo(dadosPergunta) {
@@ -33,6 +35,18 @@ module.exports = class GruposPerguntasDAO{
               },
               {
                 model: Perguntas,
+                include: [
+                  {
+                   model: ClassificaoDificuldadePergunta,
+                   as: 'Dificuldade',
+                   attributes: ['id', 'descricao']
+                  },
+                  {
+                    model: Urgencia,
+                    as: 'Urgencia',
+                    attributes: ['id', 'descricao']
+                   },
+                 ],
                 as: 'Perguntas',
                 attributes: ['titulo', 'descricao']
               }
