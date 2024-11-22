@@ -52,6 +52,22 @@ module.exports = class PerguntasController{
         }
     }
 
+    static async buscarPerguntasPorUsuario(req, res){
+        try{
+           const {idUsuario} = req.body;
+           var perguntas = await PerguntaGrupoDAO.buscarPerguntaUsuario(idUsuario);
+           if(perguntas.length == 0){
+            res.status(200).send({ message: "Nenhum grupo encontrado", data: null});
+            return;
+        }
+        res.status(200).send({ message: "perguntas encontradas", data: perguntas }); // Exemplo de status válido
+
+        }catch(e){
+            res.status(400).json("Não foi possível buscar perguntas");
+            console.log(e);
+        }
+    }
+
     static async criarClassificacaoPergunta(req,res){
         try{
         await PerguntaDAO.criarClassificaoPergunta(req.body);

@@ -58,4 +58,47 @@ module.exports = class GruposPerguntasDAO{
           throw error;
         }
       }
+
+    static async  buscarPerguntaUsuario(idUsuario){
+        try{
+       var retorno = await PerguntaGrupo.findAll({
+            where:{
+              idUsuario
+            },
+            include: [
+              {
+                model: Grupo,
+                as: 'Grupo',
+                attributes: ['nome']
+              },
+              {
+                model: Usuario,
+                as: 'Usuario',
+                attributes: ['nome']
+              },
+              {
+                model: Perguntas,
+                include: [
+                  {
+                   model: ClassificaoDificuldadePergunta,
+                   as: 'Dificuldade',
+                   attributes: ['id', 'descricao']
+                  },
+                  {
+                    model: Urgencia,
+                    as: 'Urgencia',
+                    attributes: ['id', 'descricao']
+                   },
+                 ],
+                as: 'Perguntas',
+                attributes: ['titulo', 'descricao']
+              }
+            ]
+          });
+          return retorno;
+        }catch(e){
+          console.error('Erro ao buscar perguntas por usuário:', error);
+          throw error;
+        }
+      }
 }
