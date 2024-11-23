@@ -59,7 +59,7 @@ module.exports = class GruposPerguntasDAO{
         }
       }
 
-    static async  buscarPerguntaUsuario(idUsuario){
+    static async buscarPerguntaUsuario(idUsuario){
         try{
        var retorno = await PerguntaGrupo.findAll({
             where:{
