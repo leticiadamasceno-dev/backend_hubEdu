@@ -2,6 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db/database'); // Importa o objeto Sequelize configurado
 const Grupos = require('./grupo'); // Corrige a importação do modelo Grupos
 const Usuario = require('./usuario'); // Importa o modelo Usuario
+const ClassificaoDificuldadePergunta = require('./classificacao_dificuldade_pergunta');
+const UrgenciaPergunta = require('./urgencia_pergunta');
 
 const Perguntas = sequelize.define('Perguntas', {
     id: {
@@ -22,11 +24,21 @@ const Perguntas = sequelize.define('Perguntas', {
         onDelete: 'CASCADE', // Exclui automaticamente ao deletar a Pergunta
         onUpdate: 'CASCADE', // Atualiza os registros relacionados automaticamente
     },
-    idDificuldade: {
-        type: DataTypes.INTEGER,
-    },
     idUrgencia: {
         type: DataTypes.INTEGER,
+        references: {
+            model: ClassificaoDificuldadePergunta,
+            key:'id',
+        },
+        onDelete: 'CASCADE',
+    },
+    idDificuldade: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: ClassificaoDificuldadePergunta,
+            key:'id',
+        },
+        onDelete: 'CASCADE',
     },
     idUsuario: {
         type: DataTypes.INTEGER,
@@ -47,5 +59,8 @@ const Perguntas = sequelize.define('Perguntas', {
 // Relações
 Perguntas.belongsTo(Grupos, { foreignKey: 'idGrupo', as: 'Grupo',onDelete: 'CASCADE', });// Exclui Perguntas ao excluir um Grupo
 Grupos.hasMany(Perguntas, { foreignKey: 'idGrupo', as: 'Perguntas', onDelete: 'CASCADE', });
+Perguntas.belongsTo(ClassificaoDificuldadePergunta, {foreignKey: 'idDificuldade', as: 'Dificuldade', onDelete: 'CASCADE'});
+Perguntas.belongsTo(UrgenciaPergunta, {foreignKey: 'idUrgencia', as: 'Urgencia', onDelete: 'CASCADE'});
+
 
 module.exports = Perguntas;

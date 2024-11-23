@@ -15,8 +15,8 @@ require('./models/grupo_perguntas');
 require('./models/usuario');
 require ('./models/urgencia_pergunta');
 require('./models/classificacao_dificuldade_pergunta');
+require('./models/provas');
 
-const gruposController = require('./controllers/grupos_controller');
 
 
 const port = 8888;
@@ -53,9 +53,12 @@ app.use('/usuarios', rotaUsuario);
 
 const rotaPerguntas = require('./routes/perguntas_rota');
 const rotaGrupo = require('./routes/grupos_rota');
+const rotaProva = require('./routes/prova_rota');
+
 app.use('/usuarios/', rotaUsuario);
 app.use('/perguntas/', rotaPerguntas);
 app.use('/grupos/', rotaGrupo);
+app.use('/prova/', rotaProva);
 
 app.listen(port, () => {
 

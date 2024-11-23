@@ -2,6 +2,8 @@ const PerguntaGrupo = require('../models/grupo_perguntas');
 const Grupo = require('../models/grupo');
 const Perguntas = require('../models/perguntas');
 const Usuario = require('../models/usuario');
+const ClassificaoDificuldadePergunta = require('../models/classificacao_dificuldade_pergunta');
+const Urgencia = require('../models/urgencia_pergunta');
 
 module.exports = class GruposPerguntasDAO{
     static async inserirPerguntaGrupo(dadosPergunta) {
@@ -33,6 +35,18 @@ module.exports = class GruposPerguntasDAO{
               },
               {
                 model: Perguntas,
+                include: [
+                  {
+                   model: ClassificaoDificuldadePergunta,
+                   as: 'Dificuldade',
+                   attributes: ['id', 'descricao']
+                  },
+                  {
+                    model: Urgencia,
+                    as: 'Urgencia',
+                    attributes: ['id', 'descricao']
+                   },
+                 ],
                 as: 'Perguntas',
                 attributes: ['titulo', 'descricao']
               }
@@ -41,6 +55,49 @@ module.exports = class GruposPerguntasDAO{
           return retorno;
         }catch(error){
           console.error('Erro ao buscar perguntas:', error);
+          throw error;
+        }
+      }
+
+    static async buscarPerguntaUsuario(idUsuario){
+        try{
+       var retorno = await PerguntaGrupo.findAll({
+            where:{
+              idUsuario
+            },
+            include: [
+              {
+                model: Grupo,
+                as: 'Grupo',
+                attributes: ['nome']
+              },
+              {
+                model: Usuario,
+                as: 'Usuario',
+                attributes: ['nome']
+              },
+              {
+                model: Perguntas,
+                include: [
+                  {
+                   model: ClassificaoDificuldadePergunta,
+                   as: 'Dificuldade',
+                   attributes: ['id', 'descricao']
+                  },
+                  {
+                    model: Urgencia,
+                    as: 'Urgencia',
+                    attributes: ['id', 'descricao']
+                   },
+                 ],
+                as: 'Perguntas',
+                attributes: ['titulo', 'descricao']
+              }
+            ]
+          });
+          return retorno;
+        }catch(e){
+          console.error('Erro ao buscar perguntas por usuário:', error);
           throw error;
         }
       }
