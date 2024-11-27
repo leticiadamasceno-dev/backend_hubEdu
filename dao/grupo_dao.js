@@ -1,7 +1,7 @@
 const Grupos = require('../models/grupo');
 const GrupoPerguntas = require('../models/grupo_perguntas');
 const Usuario = require('../models/usuario');
-const Materia = require('../models/materias')
+const Materia = require('../models/materias');
 
 module.exports = class GrupoDAO{
  

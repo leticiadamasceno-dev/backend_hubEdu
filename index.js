@@ -29,6 +29,7 @@ app.use(cors({
 
 app.use(express.static('public'));
 
+
 sequelize.sync({ force: false })
   .then(() => {
     console.log('Banco de dados sincronizado');
