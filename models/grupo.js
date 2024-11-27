@@ -17,6 +17,10 @@ const Grupos = sequelize.define('Grupos', {
         },
         onDelete: 'CASCADE', // Configuração de exclusão em cascata
     },
+    foto: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     nome: {
         type: DataTypes.STRING,
         allowNull: false,

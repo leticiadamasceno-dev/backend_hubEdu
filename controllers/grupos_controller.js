@@ -7,13 +7,7 @@ const PerguntaGrupoDAO = require('../dao/grupos_perguntas_dao');
 module.exports = class GrupoController {
     static async criarGruposMockados(req, res) {
         try {
-            // Passo 1: Exclua os registros dependentes
-           /*  await PerguntaGrupoDAO.excluirTodos(); // Remove registros de GrupoPerguntas
-            await PerguntaDAO.excluirTodas(); // Remove registros de Perguntas */
-
-            // Passo 2: Agora recrie os grupos
             await GrupoDAO.criarGrupos();
-
           console.log("Grupos criados com sucesso!");
         } catch (e) {
             console.log(e);
@@ -23,9 +17,19 @@ module.exports = class GrupoController {
 
     static async criarGrupos(req, res){
         try{
-            /* const {idMateria, nome} = req.body;
-            const dadosGrupo = {}; */
-            GrupoDAO.criarGrupos(req.body)
+            const {idMateria, nome} = req.body;
+            
+            const photoPath = req.file ? `/uploads/${req.file.filename}` : null; // Caminho da foto
+            console.log(photoPath);
+         
+            const modeloGrupo = {
+                idMateria: idMateria,
+                nome: nome,
+                foto: photoPath
+            }
+            
+
+            GrupoDAO.criarGrupos(modeloGrupo);
             res.status(200).json({ message: "Grupo criado com sucesso!"});
 
 
