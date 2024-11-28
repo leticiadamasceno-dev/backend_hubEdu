@@ -19,8 +19,9 @@ const Grupos = sequelize.define('Grupos', {
     },
     foto: {
         type: DataTypes.STRING,
-        allowNull: false,
-    },
+        allowNull: false, // Continua exigindo um valor
+        defaultValue: 'default.png', // Valor padrão caso nenhum seja enviado
+    },    
     nome: {
         type: DataTypes.STRING,
         allowNull: false,
