@@ -31,7 +31,7 @@ const Respostas = sequelize.define('Respostas', {
     },
     foto: {
         type: DataTypes.STRING,
-        allowNull: false, 
+        allowNull: true, 
     },
     
 });
