@@ -29,7 +29,7 @@ const CurtidaReposta = sequelize.define('CurtidaReposta', {
         },
         onDelete: 'SET NULL', // Deixa nulo se o usuário for deletado
     },
-    idReposta: {
+    idResposta: {
         type: DataTypes.INTEGER,
         references: {
             model: Repostas,

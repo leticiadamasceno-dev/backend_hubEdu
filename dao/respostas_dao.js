@@ -1,6 +1,6 @@
 const sequelize = require('../db/database');
 const Respostas = require('../models/respostas');
-
+const Usuario = require('../models/usuario');
 module.exports = {
     inserirResposta: async (resposta) => {
         return await Respostas.create(resposta);
@@ -11,7 +11,8 @@ module.exports = {
         return await Respostas.findAll({
             where: { idPergunta },
             include: [
-                { association: 'Pergunta' },
+                { association: 'Pergunta'},
+                { association: 'Usuario'},
                 {
                     model: Usuario,
                     as: 'Usuario',
@@ -21,11 +22,14 @@ module.exports = {
         });
     },
 
+
     buscarRespostasPorUsuario: async (idUsuario) => {
         return await Respostas.findAll({ where: { idUsuario } });
     },
 
     adicionarCurtida: async (idPergunta, curtida) => {
         return await Respostas.update({curtida: sequelize.literal(`curtidas + ${curtida}`)}, {where: {id: idPergunta}})
-    }
+    },
+
+    
 };

@@ -1,5 +1,5 @@
 const RespostasDAO = require('../dao/respostas_dao');
-const CurtidaRepostaDAO = require('../dao/curtida_resposta_dao');
+//const CurtidaRepostaDAO = require('../dao/curtida_resposta_dao');
 
 module.exports = class RespostasController {
 
@@ -75,13 +75,22 @@ module.exports = class RespostasController {
 
     static async curtirReposta(req, res){
         try{
-            const {idPergunta, idUsuario, idReposta} = req.body;
+            const {idPergunta, idUsuario, idResposta} = req.body;
 //adicionar na tabela de curtidasRepostas para os usuários verem quem curtiu esta resposta 
         const modeloCurtida = {
             idPergunta, 
             idUsuario, 
-            idReposta
+            idResposta
         }
+        const curtidaExiste = await CurtidaRespostaDAO.verificaExisteCurtida(idPergunta,idResposta,idUsuario );
+        console.log(`curtida existe `, curtidaExiste);
+       if(curtidaExiste) {
+        res.status(200).json({
+            message: 'Esta resposta já obteve sua aprovação',
+            data: null,
+        });
+        return;
+       }
         await CurtidaRepostaDAO.adicionarCurtidaResposta(modeloCurtida);
         res.status(200).json({
             message: 'Resposta curtida',

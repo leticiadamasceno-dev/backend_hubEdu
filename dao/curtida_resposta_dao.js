@@ -13,4 +13,21 @@ module.exports = class CurtidaRespostaDAO{
             throw error;  
           }
     }
+
+    static async verificaExisteCurtida(idPergunta, idResposta, idUsuario){
+      try{
+        const retorno = await CurtidaReposta.findOne({
+          where: {
+            idPergunta: idPergunta, 
+            idResposta: idResposta, 
+            idUsuario: idUsuario
+          }
+        }
+      );
+        console.log(retorno);
+        return retorno != null;
+      }catch(e){
+        throw e;
+      }
+    }
 }
