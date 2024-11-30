@@ -10,4 +10,6 @@ router.get('/pergunta/:idPergunta', RespostasController.buscarRespostasPorPergun
 
 router.get('/usuario/:idUsuario', RespostasController.buscarRespostasPorUsuario);
 
+router.post('/curtirResposta/', RespostasController.curtirReposta);
+
 module.exports = router;

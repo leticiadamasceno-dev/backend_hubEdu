@@ -87,4 +87,21 @@ module.exports = class PerguntasController{
             res.status(400).send({ message: "Não foi possível criar nivel de urgencia"});
         }
     } 
+
+    static async buscarPerguntaComRespostas(req,res){
+        try{
+            const {idPergunta} = req.body;
+            const retornoPergunta = await PerguntaDAO.buscarPerguntasComRespostas(idPergunta);
+
+            res.status(200).json({
+                message: 'Pergunta encontradas.',
+                data: retornoPergunta,
+            });
+        }catch(e){
+            res.status(400).json({
+                message: 'Não foi possível buscar pergunta com resposta',
+                data: null,
+            });
+        }
+    }
 }

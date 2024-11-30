@@ -1,13 +1,14 @@
 const RespostasDAO = require('../dao/respostas_dao');
+//const CurtidaRepostaDAO = require('../dao/curtida_resposta_dao');
 
 module.exports = class RespostasController {
 
     static async criarResposta(req, res) {
         try {
             const { idPergunta, conteudo, idUsuario } = req.body;
-
+            
             const foto = req.file ? `/uploads/${req.file.filename}` : null;
-            if (!idPergunta || !conteudo || !idUsuario || !foto) {
+            if (!idPergunta || !conteudo || !idUsuario) {
                 return res.status(400).json({
                     message: 'Campos obrigatórios: idPergunta, conteudo, idUsuario, foto.',
                 });
@@ -69,6 +70,35 @@ module.exports = class RespostasController {
         } catch (e) {
             console.error(e);
             res.status(500).json({ message: 'Erro ao buscar respostas por usuário.' });
+        }
+    }
+
+    static async curtirReposta(req, res){
+        try{
+            const {idPergunta, idUsuario, idResposta} = req.body;
+//adicionar na tabela de curtidasRepostas para os usuários verem quem curtiu esta resposta 
+        const modeloCurtida = {
+            idPergunta, 
+            idUsuario, 
+            idResposta
+        }
+        const curtidaExiste = await CurtidaRespostaDAO.verificaExisteCurtida(idPergunta,idResposta,idUsuario );
+        console.log(`curtida existe `, curtidaExiste);
+       if(curtidaExiste) {
+        res.status(200).json({
+            message: 'Esta resposta já obteve sua aprovação',
+            data: null,
+        });
+        return;
+       }
+        await CurtidaRepostaDAO.adicionarCurtidaResposta(modeloCurtida);
+        res.status(200).json({
+            message: 'Resposta curtida',
+            data: null,
+        });
+        }catch(e){
+            console.error(e);
+            res.status(500).json({ message: 'Não foi possível curtir resposta' });
         }
     }
 };

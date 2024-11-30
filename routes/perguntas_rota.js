@@ -7,4 +7,5 @@ router.post('/buscarPerguntas',verificarToken, perguntaController.buscarPergunta
 router.post('/criarClassificacaoPergunta', verificarToken, perguntaController.criarClassificacaoPergunta);
 router.post('/criarUrgenciaPergunta', verificarToken, perguntaController.criarUrgenciaPergunta)
 router.post('/buscarPerguntaPorUsuario', verificarToken, perguntaController.buscarPerguntasPorUsuario);
+router.post('/buscarPerguntaComResposta', verificarToken, perguntaController.buscarPerguntaComRespostas);
 module.exports = router
