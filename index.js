@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db/database');
+const path = require('path');
+
 
 // Importação de controladores e modelos
 const materiasController = require('./controllers/materias_controller');
@@ -13,14 +15,13 @@ const rotaProva = require('./routes/prova_rota');
 const respostasRoutes = require('./routes/respostas_rota');
 
 const app = express();
-const port = 8888;
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); // Para interpretar form-data
-app.use(cors({
-  origin: ['http://localhost:8888', 'http://127.0.0.1:8888']
-}));
+const port = 8000;
+//config json response
+app.use(express.json());
+app.use(cors({origin: ['http://192.168.5.18:8000']}))
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 sequelize.sync({ alter: true })
   .then(() => {
@@ -38,5 +39,6 @@ app.use('/prova', rotaProva);
 app.use('/respostas', respostasRoutes);
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando em http://10.0.2.2:${port}`);
 });
+  

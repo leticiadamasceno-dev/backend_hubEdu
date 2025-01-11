@@ -5,6 +5,7 @@ const Usuario = require('../models/usuario');
 const ClassificaoDificuldadePergunta = require('../models/classificacao_dificuldade_pergunta');
 const Urgencia = require('../models/urgencia_pergunta');
 const Respostas = require('../models/respostas');
+const Materia = require('../models/materias');
 
 module.exports = class GruposPerguntasDAO{
     static async inserirPerguntaGrupo(dadosPergunta) {
@@ -90,6 +91,11 @@ module.exports = class GruposPerguntasDAO{
                     as: 'Urgencia',
                     attributes: ['id', 'descricao']
                    },
+                   {
+                    model: Materia, 
+                    as: 'Materia',
+                    attributes: ['id', 'nome']
+                   }
                  ],
                 as: 'Perguntas',
                 attributes: ['titulo', 'descricao']
@@ -99,8 +105,8 @@ module.exports = class GruposPerguntasDAO{
           });
           return retorno;
         }catch(e){
-          console.error('Erro ao buscar perguntas por usuário:', error);
-          throw error;
+          console.log('Erro ao buscar perguntas por usuário:', e);
+          throw e;
         }
       }
 }

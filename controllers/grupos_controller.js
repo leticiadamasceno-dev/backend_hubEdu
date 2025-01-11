@@ -59,6 +59,7 @@ module.exports = class GrupoController {
     
 
     static async listarTodosGrupos(req, res) {
+        console.log("---->> buscando grupos");
         try {
             const gruposRetornados = await GrupoDAO.buscarGrupos();
             res.status(200).json({ message: "Grupos retornados com sucesso", data: gruposRetornados });
