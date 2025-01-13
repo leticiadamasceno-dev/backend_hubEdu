@@ -6,5 +6,5 @@ const upload = require('../middleare/upload_imagens_middleare');
 
 router.get('/buscarGrupos', verificarToken, grupoController.listarTodosGrupos);
 router.post('/criarGrupos',upload.single('foto'),  verificarToken, grupoController.criarGrupos);
-
+router.post('/participarGrupo', verificarToken, grupoController.vincularUsuarioGrupo);
 module.exports = router

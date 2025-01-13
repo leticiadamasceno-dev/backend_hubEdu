@@ -8,4 +8,5 @@ router.post('/criarClassificacaoPergunta', verificarToken, perguntaController.cr
 router.post('/criarUrgenciaPergunta', verificarToken, perguntaController.criarUrgenciaPergunta)
 router.post('/buscarPerguntaPorUsuario', verificarToken, perguntaController.buscarPerguntasPorUsuario);
 router.post('/buscarPerguntaComResposta', verificarToken, perguntaController.buscarPerguntaComRespostas);
+router.post('/buscarPerguntaPorGrupoParticipado', verificarToken, perguntaController.buscarPerguntasGruposUsuario);
 module.exports = router
