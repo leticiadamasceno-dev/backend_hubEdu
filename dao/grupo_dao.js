@@ -2,7 +2,7 @@ const Grupos = require('../models/grupo');
 const GrupoPerguntas = require('../models/grupo_perguntas');
 const Usuario = require('../models/usuario');
 const Materia = require('../models/materias');
-
+const GrupoUsuario = require('../models/grupo_usuario');
 module.exports = class GrupoDAO{
  
     static async buscarPublicacaoGrupo(usuarioId){
@@ -50,5 +50,13 @@ module.exports = class GrupoDAO{
         } catch (error) {
             console.log("falha ao buscar grupos", error);
         }
+}
+
+static async criarParticipacaoGrupo(grupoUsuario){
+    try{
+      await GrupoUsuario.create(grupoUsuario);
+    }catch(e){
+        console.log("-> houve um erro", e);
     }
+}
 }

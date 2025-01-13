@@ -16,15 +16,12 @@ module.exports = class GrupoController {
     }
     static async criarGrupos(req, res) {
         try {
-            
-            // console.log("Dados recebidos no body (antes de normalizar):", req.body);
-    
-            // Normalizar os campos (remover tabulações e espaços em branco)
             const nome = req.body.nome?.trim();
-            const idMateria = req.body['idMateria\t']?.trim(); // Remove o caractere \t
+            const idMateria = req.body['idMateria']?.trim(); // Remove o caractere \t
     
             console.log("Nome normalizado:", nome);
-            console.log("idMateria normalizado:", idMateria);
+            console.log("idMateria normalizado:", req.body['idMateria']);
+            console.log(req.file);
     
             if (!idMateria) {
                 console.error("Erro: idMateria não foi enviado!");
@@ -65,6 +62,20 @@ module.exports = class GrupoController {
             res.status(200).json({ message: "Grupos retornados com sucesso", data: gruposRetornados });
         } catch (error) {
             res.status(400).json({ message: "Erro ao buscar grupos", error });
+        }
+    }
+
+    static async vincularUsuarioGrupo(req, res){
+        try{
+            const {idGrupo, idUsuario} = req.body;
+            const grupoPergunta = {
+                idGrupo,
+                idUsuario
+            }
+            const retorno = await GrupoDAO.criarParticipacaoGrupo(grupoPergunta);
+            res.status(200).json({message: "Participando com sucesso", data: retorno});
+        }catch(error){
+            res.status(400).json({ message: "Erro ao participar de grupo", error });
         }
     }
 };

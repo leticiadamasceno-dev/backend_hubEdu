@@ -1,6 +1,7 @@
 const GrupoDAO = require('../dao/grupo_dao');
 const PerguntaDAO = require('../dao/perguntas_dao');
 const PerguntaGrupoDAO = require('../dao/grupos_perguntas_dao');
+const GrupoUsuario = require('../models/grupo_usuario');
 
 module.exports = class PerguntasController{
     static async criarPergunta(req,res){
@@ -100,7 +101,25 @@ module.exports = class PerguntasController{
         }catch(e){
             res.status(400).json({
                 message: 'Não foi possível buscar pergunta com resposta',
-                data: null,
+                data: null, 
+            });
+        }
+    }
+
+    //pegar as perguntas dos grupos que o usuário está participando 
+    static async buscarPerguntasGruposUsuario(req, res){
+        try{
+            const {idUsuario} = req.body;
+           console.log(idUsuario);
+            const retorno = await PerguntaDAO.buscarPerguntasPorGrupoParticipado(idUsuario);
+            res.status(200).json({
+                message: 'Perguntas encontradas.',
+                data: retorno,
+            });
+        }catch(e){
+            res.status(400).json({
+                message: 'Não foi possível buscar perguntas',
+                data: null, 
             });
         }
     }
